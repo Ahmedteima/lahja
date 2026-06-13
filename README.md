@@ -74,12 +74,54 @@ copy .env.example .env            # then edit .env with your real keys
 
 ### Command line
 
+Basic — output is written next to the input as `<name>_voiceover.mp4`:
+
 ```bash
 lahja "lecture.mp4"
 # -> lecture_voiceover.mp4
-
-lahja "lecture.mp4" -o result.mp4 --no-refine --keep-workdir -v
 ```
+
+Choose the output path:
+
+```bash
+lahja "lecture.mp4" -o results/lecture_en.mp4
+```
+
+Skip the LLM refinement step (no NVIDIA key needed; the raw Whisper
+transcript is used as-is):
+
+```bash
+lahja "lecture.mp4" --no-refine
+```
+
+Reuse an existing cloned voice instead of cloning from the video's own
+audio — useful when several videos have the same speaker (avoids paying
+the clone fee once per video):
+
+```bash
+# First video clones the voice automatically; find its id in the logs
+# (e.g. vc7383c386cb1), then reuse it for the rest:
+lahja "lecture-02.mp4" --voice-id vc7383c386cb1
+lahja "lecture-03.mp4" --voice-id vc7383c386cb1
+```
+
+Debugging — verbose logs and keep all intermediate files (extracted
+audio, TTS chunks, gap slices) for inspection:
+
+```bash
+lahja "lecture.mp4" -v --keep-workdir --workdir debug_run
+```
+
+All options:
+
+| Option | Description |
+|---|---|
+| `-o, --output PATH` | output video path (default: `<video>_voiceover.mp4`) |
+| `--voice-id ID` | reuse an existing cloned voice instead of cloning from the video |
+| `--no-refine` | skip the LLM transcript refinement step |
+| `--workdir PATH` | directory for intermediate files (default: a fresh temp dir) |
+| `--keep-workdir` | don't delete intermediate files afterwards |
+| `-v, --verbose` | debug logging |
 
 ### Python (e.g. from a web backend)
 
