@@ -1,0 +1,6 @@
+# Core dependencies. PyTorch should be installed first with the right CUDA build:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+openai-whisper
+requests
+openai>=1.0
+python-dotenv
