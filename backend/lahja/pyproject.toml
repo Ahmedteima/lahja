@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lahja"
+version = "0.1.0"
+description = "Replace a video's narration with a cloned AI voice while keeping timing, intro/outro music and pauses."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "openai-whisper",
+    "requests",
+    "openai>=1.0",
+    "python-dotenv",
+]
+
+[project.scripts]
+lahja = "lahja.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
